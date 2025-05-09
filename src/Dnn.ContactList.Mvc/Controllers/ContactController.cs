@@ -4,10 +4,13 @@
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Dnn.ContactList.Api;
+using Dnn.ContactList.Mvc.PageContext;
 using DotNetNuke.Collections;
 using DotNetNuke.Common;
 using DotNetNuke.Entities.Modules.Actions;
+using DotNetNuke.Web.Client;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 
@@ -19,6 +22,7 @@ namespace Dnn.ContactList.Mvc.Controllers
     [DnnHandleError]
     public class ContactController : DnnController
     {
+        private IPageContext pageContext;
         private readonly IContactRepository _repository;
 
         /// <summary>
@@ -107,6 +111,9 @@ namespace Dnn.ContactList.Mvc.Controllers
         {
             var contacts = _repository.GetContacts(searchTerm, PortalSettings.PortalId, pageIndex, ModuleContext.Configuration.ModuleSettings.GetValueOrDefault("PageSize", 10));
 
+            pageContext.Title = "my page title";
+            pageContext.RegisterScript("~/DesktopModules/MVC/Dnn/ContactList/script.js", FileOrder.Js.DefaultPriority, "DnnBodyProvider");
+
             return View(contacts);
         }
 
@@ -132,6 +139,22 @@ namespace Dnn.ContactList.Mvc.Controllers
             ViewBag.Alias = PortalSettings.PortalAlias.HTTPAlias;
 
             return PartialView("_DemoPartial", DateTime.Now);
+        }
+
+        protected override void Initialize(RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+            
+            if (this.DnnPage == null && this.ControllerContext.IsChildAction)
+            {
+                // MVC pipeline
+                pageContext = new MvcPageContext(this);
+            }
+            else if (this.DnnPage != null)
+            {
+                // webform pipeline
+                pageContext = new WebFormsPageContext(this.DnnPage);
+            }
         }
     }
 }

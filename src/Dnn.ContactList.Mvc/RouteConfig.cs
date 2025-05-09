@@ -6,7 +6,7 @@ namespace Dnn.ContactList.Mvc
     {
         public void RegisterRoutes(IMapRoute mapRouteManager)
         {
-            mapRouteManager.MapRoute("ContactList", "ContactList", "{controller}/{action}", new[]
+            mapRouteManager.MapRoute("Dnn/ContactList", "ContactList", "{controller}/{action}", new[]
             {"Dnn.ContactList.Mvc.Controllers"});
         }
     }
