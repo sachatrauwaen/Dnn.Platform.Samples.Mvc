@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.UI;
 using Dnn.ContactList.Api;
 using Dnn.ContactList.Mvc.PageContext;
 using DotNetNuke.Collections;
@@ -113,6 +114,7 @@ namespace Dnn.ContactList.Mvc.Controllers
 
             pageContext.Title = "my page title";
             pageContext.RegisterScript("~/DesktopModules/MVC/Dnn/ContactList/script.js", FileOrder.Js.DefaultPriority, "DnnBodyProvider");
+            pageContext.RegisterStyleSheet("~/DesktopModules/MVC/Dnn/ContactList/stylesheet.css");
 
             return View(contacts);
         }

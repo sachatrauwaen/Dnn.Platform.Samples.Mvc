@@ -116,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="license.txt" />
+    <Content Include="stylesheet.css" />
     <Content Include="module.css" />
     <Content Include="ReleaseNotes.txt" />
   </ItemGroup>
@@ -136,6 +137,7 @@
     <Content Include="Module.build" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="script.js" />
     <Content Include="Views\Contact\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
