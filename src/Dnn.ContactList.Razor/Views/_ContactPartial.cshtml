@@ -1,0 +1,38 @@
+﻿@using Dnn.ContactList.Razor.Models
+@using DotNetNuke.Web.MvcPipeline.Modules
+
+@model ContactModel
+
+@{
+    //var moduleConext = ViewData["ModuleContext"] as DotNetNuke.Entities.Modules.ModuleInfo;
+    var localResourceFile = "~/DesktopModules/RazorContactList/App_LocalResources/Contact.resx";
+}
+
+<div class="contactCard" style="float: left;">
+    @{
+        if (Model.IsEditable)
+        {
+            <div class="right">
+                <a href="@Model.EditUrl" title="@Html.LocalizeString("Edit", localResourceFile)">
+                    <i class="fa fa-pencil"></i>
+                </a>
+            </div>
+        }
+    }
+    <div>
+        <span>@Model.FirstName</span>
+        <span>@Model.LastName</span>
+    </div>
+    <div>
+        <span>@Html.LocalizeString("Email", localResourceFile)</span>
+        <span>@Model.Email</span>
+    </div>
+    <div>
+        <span>@Html.LocalizeString("Phone", localResourceFile)</span>
+        <span>@Model.Phone</span>
+    </div>
+    <div>
+        <span>@Html.LocalizeString("Twitter", localResourceFile)</span>
+        <span>@Model.Twitter</span>
+    </div>
+</div>

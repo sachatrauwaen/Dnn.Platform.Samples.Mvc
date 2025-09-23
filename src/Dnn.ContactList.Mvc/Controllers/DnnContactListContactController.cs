@@ -4,15 +4,11 @@
 using System;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Routing;
-using System.Web.UI;
 using Dnn.ContactList.Api;
-
-using Dnn.ContactList.Mvc.PageContext;
 using DotNetNuke.Collections;
 using DotNetNuke.Common;
 using DotNetNuke.Entities.Modules.Actions;
-using DotNetNuke.Web.Client;
+using DotNetNuke.Entities.Portals;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 
@@ -22,20 +18,19 @@ namespace Dnn.ContactList.Mvc.Controllers
     /// ContactController is the MVC Controller class for managing Contacts in the UI
     /// </summary>
     [DnnHandleError]
-    public class ContactController : DnnController
+    public class DnnContactListContactController : Controller
     {
-        private IPageContext pageContext;
         private readonly IContactRepository _repository;
 
         /// <summary>
         /// Default Constructor constructs a new ContactController
         /// </summary>
-        public ContactController() : this(ContactRepository.Instance) { }
+        public DnnContactListContactController() : this(ContactRepository.Instance) { }
 
         /// <summary>
         /// Constructor constructs a new ContactController with a passed in repository
         /// </summary>
-        public ContactController(IContactRepository repository)
+        public DnnContactListContactController(IContactRepository repository)
         {
             Requires.NotNull(repository);
 
@@ -50,11 +45,11 @@ namespace Dnn.ContactList.Mvc.Controllers
         [HttpGet]
         public ActionResult Delete(int contactId)
         {
-            var contact = _repository.GetContact(contactId, PortalSettings.PortalId);
+            var contact = _repository.GetContact(contactId, PortalSettings.Current.PortalId);
 
             _repository.DeleteContact(contact);
 
-            return RedirectToDefaultRoute();
+            return View();
         }
 
         /// <summary>
@@ -65,8 +60,8 @@ namespace Dnn.ContactList.Mvc.Controllers
         public ActionResult Edit(int contactId = -1)
         {
             var contact = (contactId == -1)
-                        ? new Contact { PortalId = PortalSettings.PortalId }
-                        : _repository.GetContact(contactId, PortalSettings.PortalId);
+                        ? new Contact { PortalId = PortalSettings.Current.PortalId }
+                        : _repository.GetContact(contactId, PortalSettings.Current.PortalId);
 
             return View(contact);
         }
@@ -82,7 +77,7 @@ namespace Dnn.ContactList.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                contact.PortalId = PortalSettings.PortalId;
+                contact.PortalId = PortalSettings.Current.PortalId;
 
                 if (contact.ContactId == -1)
                 {
@@ -93,7 +88,7 @@ namespace Dnn.ContactList.Mvc.Controllers
                     _repository.UpdateContact(contact);
                 }
 
-                return RedirectToDefaultRoute();
+                return View();
             }
             else
             {
@@ -111,10 +106,7 @@ namespace Dnn.ContactList.Mvc.Controllers
         [ModuleAction(ControlKey = "Edit", TitleKey = "AddContact")]
         public ActionResult Index(string searchTerm = "", int pageIndex = 0)
         {
-            var contacts = _repository.GetContacts(searchTerm, PortalSettings.PortalId, pageIndex, ModuleContext.Configuration.ModuleSettings.GetValueOrDefault("PageSize", 10));
-            pageContext.Title = "my page title";
-            pageContext.RegisterScript("~/DesktopModules/MVC/Dnn/ContactList/script.js", FileOrder.Js.DefaultPriority, "DnnBodyProvider");
-            pageContext.RegisterStyleSheet("~/DesktopModules/MVC/Dnn/ContactList/stylesheet.css");
+            var contacts = _repository.GetContacts(searchTerm, PortalSettings.Current.PortalId, pageIndex, ModuleContext.Configuration.ModuleSettings.GetValueOrDefault("PageSize", 10));
 
             return View(contacts);
         }
@@ -125,9 +117,9 @@ namespace Dnn.ContactList.Mvc.Controllers
             {
                 Data = new
                 {
-                    User.UserID,
-                    PortalSettings.PortalId,
-                    Alias = PortalSettings.PortalAlias.HTTPAlias,
+                    1,
+                    PortalSettings.Current.PortalId,
+                    Alias = PortalSettings.Current.PortalAlias.HTTPAlias,
                     Time = DateTime.Now.ToString("HH:mm:ss ttt")
                 },
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
@@ -136,27 +128,11 @@ namespace Dnn.ContactList.Mvc.Controllers
 
         public ActionResult GetDemoPartial()
         {
-            TempData["UserID"] = User.UserID;
-            ViewData["PortalId"] = PortalSettings.PortalId;
-            ViewBag.Alias = PortalSettings.PortalAlias.HTTPAlias;
+            TempData["UserID"] = 1;
+            ViewData["PortalId"] = PortalSettings.Current.PortalId;
+            ViewBag.Alias = PortalSettings.Current.PortalAlias.HTTPAlias;
 
             return PartialView("_DemoPartial", DateTime.Now);
-        }
-
-        protected override void Initialize(RequestContext requestContext)
-        {
-            base.Initialize(requestContext);
-            
-            if (this.DnnPage == null && this.ControllerContext.IsChildAction)
-            {
-                // MVC pipeline
-                pageContext = new MvcPageContext(this);
-            }
-            else if (this.DnnPage != null)
-            {
-                // webform pipeline
-                pageContext = new WebFormsPageContext(this.DnnPage);
-            }
         }
     }
 }

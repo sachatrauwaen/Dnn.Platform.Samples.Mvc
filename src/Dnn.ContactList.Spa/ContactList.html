@@ -1,5 +1,5 @@
 ﻿[JavaScript:{ jsname: "Knockout" }]
-[JavaScript:{ path: "~/DesktopModules/Dnn/ContactList/ClientScripts/contacts.js"}]
+[JavaScript:{ path: "~/DesktopModules/Dnn/ContactList/ClientScripts/contacts.js", priority : 900}]
 [JavaScript:{ path: "~/DesktopModules/Dnn/ContactList/ClientScripts/util.js"}]
 [JavaScript:{ path: "~/Resources/Shared/scripts/dnn.jquery.js"}]
 [JavaScript:{ path: "~/DesktopModules/Dnn/ContactList/ClientScripts/QuickSettingsDispatcher.js"}]
@@ -48,27 +48,27 @@
     <div class="editContact col-md-6 col-md-offset-3" data-bind="visible: isFormEnabled() && isEditMode(), with: selectedContact">
         <div class="form-group">
             <label class="form-label">[Resx:{key:"FirstName"}]</label>
-            <input class="form-control" data-bind="value: firstName, valueUpdate: 'input', css: firstName.validationClass"/>
+            <input class="form-control" data-bind="value: firstName, valueUpdate: 'input', css: firstName.validationClass" />
             <span class="form-error" data-bind='visible: firstName.hasError, text: firstName.validationMessage'> </span>
         </div>
         <div class="form-group">
             <label class="form-label">[Resx:{key:"LastName"}]</label>
-            <input class="form-control" data-bind="value: lastName, valueUpdate: 'input', css: lastName.validationClass"/>
+            <input class="form-control" data-bind="value: lastName, valueUpdate: 'input', css: lastName.validationClass" />
             <span class="form-error" data-bind='visible: lastName.hasError, text: lastName.validationMessage'> </span>
         </div>
         <div class="form-group">
             <label class="form-label">[Resx:{key:"Email"}]</label>
-            <input class="form-control" data-bind="value: email, valueUpdate: 'input', css: email.validationClass"/>
+            <input class="form-control" data-bind="value: email, valueUpdate: 'input', css: email.validationClass" />
             <span class="form-error" data-bind='visible: email.hasError, text: email.validationMessage'> </span>
         </div>
         <div class="form-group">
             <label class="form-label">[Resx:{key:"Phone"}]</label>
-            <input class="form-control" data-bind="value: phone, valueUpdate: 'input', css: phone.validationClass"/>
+            <input class="form-control" data-bind="value: phone, valueUpdate: 'input', css: phone.validationClass" />
             <span class="form-error" data-bind='visible: phone.hasError, text: phone.validationMessage'> </span>
         </div>
         <div class="form-group">
             <label class="form-label">[Resx:{key:"Twitter"}]</label>
-            <input class="form-control" data-bind="value: twitter"/>
+            <input class="form-control" data-bind="value: twitter" />
         </div>
         <div class="buttons">
             <a class="dnnSecondaryAction" data-bind="click: cancel">[Resx:{key:"Cancel"}]</a>
@@ -88,7 +88,7 @@
 <script language="javascript" type="text/javascript">
     jQuery(document).ready(function ($) {
         var moduleId = parseInt("[ModuleContext:ModuleId]");
-        var preloadedData = [PreloadedData:All];
+        var preloadedData = [PreloadedData: All];
         var localizedSettings = {
             Cancel: '[Resx:{key:"Cancel"}]',
             Delete: '[Resx:{key:"Delete"}]',

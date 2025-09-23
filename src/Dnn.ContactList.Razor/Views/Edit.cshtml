@@ -1,0 +1,47 @@
+﻿@using DotNetNuke.Services.Localization
+@using DotNetNuke.Web.Mvc.Helpers
+
+@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using Dnn.ContactList.Razor.Models
+@using DotNetNuke.Web.MvcPipeline.Modules
+
+@model ContactModel
+@{
+    var moduleId = (int)ViewData["ModuleId"];
+}
+
+<div class="editContact" data-moduleid="@moduleId" data-returnurl="@Model.ReturnUrl">
+    @*@Html.ValidationSummary(true)*@
+    @Html.HiddenFor(m => m.ContactId)
+    <div>
+        <label>@Html.LocalizeString("FirstName")*</label>
+        @Html.TextBoxFor(m => m.FirstName)
+        @Html.ValidationMessageFor(m => m.FirstName, @Html.LocalizeString("FirstNameRequired").ToHtmlString())
+    </div>
+    <div>
+        <label>@Html.LocalizeString("LastName")*</label>
+        @Html.TextBoxFor(m => m.LastName)
+        @Html.ValidationMessageFor(m => m.LastName, @Html.LocalizeString("LastNameRequired").ToHtmlString())
+    </div>
+    <div>
+        <label>@Html.LocalizeString("Email")*</label>
+        @Html.TextBoxFor(m => m.Email)
+        @Html.ValidationMessageFor(m => m.Email, @Html.LocalizeString("EmailRequired").ToHtmlString())
+
+    </div>
+    <div>
+        <label>@Html.LocalizeString("Phone")*</label>
+        @Html.TextBoxFor(m => m.Phone)
+        @Html.ValidationMessageFor(m => m.Phone, @Html.LocalizeString("PhoneRequired").ToHtmlString())
+    </div>
+    <div>
+        <label>@Html.LocalizeString("Twitter")*</label>
+        @Html.TextBoxFor(m => m.Twitter)
+        @Html.ValidationMessageFor(m => m.Twitter, @Html.LocalizeString("TwitterRequired").ToHtmlString())
+    </div>
+    <div class="buttons">
+        <button type="submit" id="btnSave" class="dnnPrimaryAction">@Html.LocalizeString("Save")</button>
+        <a class="dnnSecondaryAction" href="@Model.ReturnUrl">@Html.LocalizeString("Cancel")</a>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 ﻿<dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="Dnn.ContactList_Mvc" type="Module" version="01.00.01">
+    <package name="Dnn.ContactList_Mvc" type="Module" version="01.00.02">
       <friendlyName>Contact List Mvc</friendlyName>
       <description>DNN Contact List using MVC</description>
       <owner>
@@ -45,6 +45,7 @@
                   <moduleControl>
                     <controlKey />
                     <controlSrc>Dnn.ContactList.Mvc.Controllers/Contact/Index.mvc</controlSrc>
+					<mvcControlClass>DotNetNuke.Web.MvcPipeline.ModuleControl.MvcModuleControl, DotNetNuke.Web.MvcPipeline</mvcControlClass>
                     <supportsPartialRendering>False</supportsPartialRendering>
                     <controlTitle />
                     <controlType>View</controlType>
