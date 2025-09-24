@@ -30,8 +30,6 @@ namespace Dnn.ContactList.Razor
 
         public override string ControlName => "View";
 
-
-
         public override IRazorModuleResult Invoke()
         {
             var contacts = _repository.GetContacts(PortalSettings.PortalId);

@@ -4,6 +4,7 @@
     border: solid 1px #aaa;
     border-radius: 10px;
     padding: 30px;
+    
 }
 
 .contactCard {
@@ -12,6 +13,8 @@
     border-radius: 10px;
     width: 100%;
     margin-bottom: 30px;
+    width: 200px;
+    margin: 10px;
 }
 
 .contactCard .fa {

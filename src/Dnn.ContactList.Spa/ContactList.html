@@ -4,7 +4,6 @@
 [JavaScript:{ path: "~/Resources/Shared/scripts/dnn.jquery.js"}]
 [JavaScript:{ path: "~/DesktopModules/Dnn/ContactList/ClientScripts/QuickSettingsDispatcher.js"}]
 [JavaScript:{ path: "~/DesktopModules/Dnn/ContactList/ClientScripts/pager.js"}]
-[Css: { path: "~/DesktopModules/Dnn/ContactList/stylesheets/bootstrap.min.css"}]
 [ModuleAction:{controlKey : "ShowInfo", securityAccessLevel : "Edit", titleKey: "ShowModuleInfo", localResourceFile: "~/DesktopModules/Dnn/ContactList/App_LocalResources/ShowInfo.resx" }]
 
 <div id="ContactList-[ModuleContext:ModuleId]" class="dnnContactList">
@@ -12,7 +11,7 @@
         <div class="row">
             <div data-bind="foreach: contacts" class="col-md-12">
                 <div class="col-md-4">
-                    <div class="contactCard">
+                    <div class="contactCard" style="float: left;">
                         <div class="right" data-bind="visible: $root.isFormEnabled()">
                             <a title="[Resx:{key:'Edit'}]" data-bind="click: $parent.editContact">
                                 <i class="fa fa-pencil"></i>
