@@ -53,6 +53,11 @@ namespace Dnn.ContactList.Razor
             {
                 var c = _repository.GetContact(contactId, PortalSettings.PortalId);
 
+                if (c == null)
+                {
+                    return Error("ContactList error", "contact dous not exist : "+ contactId);
+                }
+
                 return View(new ContactModel()
                 {
                     ContactId = c.ContactId,

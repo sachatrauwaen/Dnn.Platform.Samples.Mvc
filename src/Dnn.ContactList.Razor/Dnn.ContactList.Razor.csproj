@@ -47,6 +47,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\refs\DotNetNuke.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetNuke.Abstractions">
+      <HintPath>..\..\refs\DotNetNuke.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetNuke.Web, Version=9.1.0.367, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\refs\DotNetNuke.Web.dll</HintPath>

@@ -68,12 +68,12 @@ namespace Dnn.ContactList.Mvc.PageContext
 
         public void RegisterScript(string filePath, FileOrder.Js priority = FileOrder.Js.DefaultPriority, string provider = "DnnBodyProvider")
         {
-            MvcClientResourceManager.RegisterScript(this.controller.ControllerContext, filePath, priority, provider);
+            //MvcClientResourceManager.RegisterScript(this.controller.ControllerContext, filePath, priority, provider);
         }
 
         public void RegisterScript(string filePath, int jsOrder, string provider)
         {
-            MvcClientResourceManager.RegisterScript(this.controller.ControllerContext, filePath, jsOrder, provider);
+            //MvcClientResourceManager.RegisterScript(this.controller.ControllerContext, filePath, jsOrder, provider);
         }
 
         public void RegisterStartupScript(Type type, string key, string script, bool addScriptTags)
@@ -83,7 +83,7 @@ namespace Dnn.ContactList.Mvc.PageContext
 
         public void RegisterStyleSheet(string filePath, FileOrder.Css order = FileOrder.Css.DefaultPriority)
         {
-            MvcClientResourceManager.RegisterStyleSheet(this.controller.ControllerContext, filePath, order);
+            //MvcClientResourceManager.RegisterStyleSheet(this.controller.ControllerContext, filePath, order);
         }
 
         public string ResolveUrl(string relativeFilePath)

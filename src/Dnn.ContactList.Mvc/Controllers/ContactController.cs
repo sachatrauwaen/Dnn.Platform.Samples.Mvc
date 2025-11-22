@@ -9,6 +9,8 @@ using System.Web.UI;
 using Dnn.ContactList.Api;
 
 using Dnn.ContactList.Mvc.PageContext;
+using DotNetNuke.Abstractions.ClientResources;
+using DotNetNuke.Abstractions.Pages;
 using DotNetNuke.Collections;
 using DotNetNuke.Common;
 using DotNetNuke.Entities.Modules.Actions;
@@ -24,22 +26,30 @@ namespace Dnn.ContactList.Mvc.Controllers
     [DnnHandleError]
     public class ContactController : DnnController
     {
-        private IPageContext pageContext;
+        //private IPageContext pageContext;
         private readonly IContactRepository _repository;
+        private readonly IClientResourceController clientResourceController;
+        private readonly IPageService pageService;
 
         /// <summary>
         /// Default Constructor constructs a new ContactController
         /// </summary>
-        public ContactController() : this(ContactRepository.Instance) { }
+        // public ContactController() : this(ContactRepository.Instance, null, null) { }
 
         /// <summary>
         /// Constructor constructs a new ContactController with a passed in repository
         /// </summary>
-        public ContactController(IContactRepository repository)
+        public ContactController(    
+                                    IClientResourceController clientResourceController,
+                                    IPageService pageService)
         {
-            Requires.NotNull(repository);
+            //Requires.NotNull(repository);
+            Requires.NotNull(clientResourceController);
+            Requires.NotNull(pageService);
 
-            _repository = repository;
+            this.clientResourceController = clientResourceController;
+            this.pageService = pageService;
+            _repository = ContactRepository.Instance;
         }
 
         /// <summary>
@@ -112,9 +122,16 @@ namespace Dnn.ContactList.Mvc.Controllers
         public ActionResult Index(string searchTerm = "", int pageIndex = 0)
         {
             var contacts = _repository.GetContacts(searchTerm, PortalSettings.PortalId, pageIndex, ModuleContext.Configuration.ModuleSettings.GetValueOrDefault("PageSize", 10));
-            pageContext.Title = "my page title";
-            pageContext.RegisterScript("~/DesktopModules/MVC/Dnn/ContactList/script.js", FileOrder.Js.DefaultPriority, "DnnBodyProvider");
-            pageContext.RegisterStyleSheet("~/DesktopModules/MVC/Dnn/ContactList/stylesheet.css");
+            //pageContext.Title = "my page title";
+            //pageContext.RegisterScript("~/DesktopModules/MVC/Dnn/ContactList/script.js", FileOrder.Js.DefaultPriority, "DnnBodyProvider");
+            //pageContext.RegisterStyleSheet("~/DesktopModules/MVC/Dnn/ContactList/stylesheet.css");
+            pageService.SetTitle("my page title");
+            var script = clientResourceController.CreateScript();
+            script.FilePath = "~/DesktopModules/MVC/Dnn/ContactList/script.js";
+            script.Register();
+            var style = clientResourceController.CreateStylesheet();
+            style.FilePath = "~/DesktopModules/MVC/Dnn/ContactList/stylesheet.css";
+            style.Register();
 
             return View(contacts);
         }
@@ -143,20 +160,20 @@ namespace Dnn.ContactList.Mvc.Controllers
             return PartialView("_DemoPartial", DateTime.Now);
         }
 
-        protected override void Initialize(RequestContext requestContext)
-        {
-            base.Initialize(requestContext);
-            
-            if (this.DnnPage == null && this.ControllerContext.IsChildAction)
-            {
-                // MVC pipeline
-                pageContext = new MvcPageContext(this);
-            }
-            else if (this.DnnPage != null)
-            {
-                // webform pipeline
-                pageContext = new WebFormsPageContext(this.DnnPage);
-            }
-        }
+        //protected override void Initialize(RequestContext requestContext)
+        //{
+        //    base.Initialize(requestContext);
+
+        //    if (this.DnnPage == null && this.ControllerContext.IsChildAction)
+        //    {
+        //        // MVC pipeline
+        //        pageContext = new MvcPageContext(this);
+        //    }
+        //    else if (this.DnnPage != null)
+        //    {
+        //        // webform pipeline
+        //        pageContext = new WebFormsPageContext(this.DnnPage);
+        //    }
+        //}
     }
 }
