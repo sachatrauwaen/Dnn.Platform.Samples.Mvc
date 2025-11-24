@@ -39,7 +39,7 @@ namespace Dnn.ContactList.Mvc.Controllers
         /// <summary>
         /// Constructor constructs a new ContactController with a passed in repository
         /// </summary>
-        public ContactController(    
+        public ContactController(
                                     IClientResourceController clientResourceController,
                                     IPageService pageService)
         {
@@ -126,12 +126,12 @@ namespace Dnn.ContactList.Mvc.Controllers
             //pageContext.RegisterScript("~/DesktopModules/MVC/Dnn/ContactList/script.js", FileOrder.Js.DefaultPriority, "DnnBodyProvider");
             //pageContext.RegisterStyleSheet("~/DesktopModules/MVC/Dnn/ContactList/stylesheet.css");
             pageService.SetTitle("my page title");
-            var script = clientResourceController.CreateScript();
-            script.FilePath = "~/DesktopModules/MVC/Dnn/ContactList/script.js";
-            script.Register();
-            var style = clientResourceController.CreateStylesheet();
-            style.FilePath = "~/DesktopModules/MVC/Dnn/ContactList/stylesheet.css";
-            style.Register();
+            clientResourceController
+                                .CreateScript("~/DesktopModules/MVC/Dnn/ContactList/script.js")
+                                .Register();
+            clientResourceController
+                            .CreateStylesheet("~/DesktopModules/MVC/Dnn/ContactList/stylesheet.css")
+                            .Register();
 
             return View(contacts);
         }

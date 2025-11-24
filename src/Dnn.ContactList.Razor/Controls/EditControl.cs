@@ -4,7 +4,7 @@ using DotNetNuke.Collections;
 using DotNetNuke.Common;
 using DotNetNuke.Web.MvcPipeline.ModuleControl;
 using DotNetNuke.Web.MvcPipeline.ModuleControl.Razor;
-using DotNetNuke.Web.MvcPipeline.ModuleControl.Resources;
+using DotNetNuke.Web.MvcPipeline.ModuleControl.Page;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ using System.Web;
 namespace Dnn.ContactList.Razor
 {
 
-    public class EditControl : RazorModuleControlBase, IResourcable
+    public class EditControl : RazorModuleControlBase, IPageContributor
     {
         private readonly IContactRepository _repository;
 
@@ -31,19 +31,12 @@ namespace Dnn.ContactList.Razor
 
         public override string ControlName => "Edit";
 
-        public ModuleResources ModuleResources
+        public void ConfigurePage(PageConfigurationContext context)
         {
-            get
-            {
-                var resources = new ModuleResources();
-                resources.AjaxAntiForgery = true;
-                resources.AjaxScript = true;
-                resources.Scripts.Add(new ModuleScript()
-                {
-                    FilePath = "~/DesktopModules/Dnn/RazorContactList/js/edit.js"
-                });
-                return resources;
-            }
+            context.ServicesFramework.RequestAjaxAntiForgerySupport();
+            context.ServicesFramework.RequestAjaxScriptSupport();
+            context.ClientResourceController.CreateScript("~/DesktopModules/Dnn/RazorContactList/js/edit.js").Register();
+            context.PageService.SetTitle("Razor - Edit Contact");
         }
 
         public override IRazorModuleResult Invoke()

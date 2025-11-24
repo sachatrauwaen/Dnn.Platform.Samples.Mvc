@@ -5,6 +5,7 @@ using DotNetNuke.Collections;
 using DotNetNuke.Common;
 using DotNetNuke.Services.Pages;
 using DotNetNuke.Web.MvcPipeline.ModuleControl;
+using DotNetNuke.Web.MvcPipeline.ModuleControl.Page;
 using DotNetNuke.Web.MvcPipeline.ModuleControl.Razor;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ using System.Web;
 namespace Dnn.ContactList.Razor
 {
 
-    public class ViewControl : RazorModuleControlBase
+    public class ViewControl : RazorModuleControlBase, IPageContributor
     {
         private readonly IContactRepository _repository;
         private readonly IPageService pageService;
@@ -38,17 +39,21 @@ namespace Dnn.ContactList.Razor
 
         public override string ControlName => "View";
 
+        public void ConfigurePage(PageConfigurationContext context)
+        {
+            var contacts = _repository.GetContacts(PortalSettings.PortalId);
+
+            context.PageService.SetTitle("Contact List - " + contacts.Count());
+            context.PageService.SetDescription("Contact List description - " + contacts.Count());
+            context.PageService.SetKeyWords("keywords1");
+
+            context.PageService.AddInfoMessage("", "This is a simple contact list module built using Razor and DNN's MVC Pipeline");
+            //context.pageService.AddErrorMessage("", "This is a simple contact list module built using Razor and DNN's MVC Pipeline");
+        }
+
         public override IRazorModuleResult Invoke()
         {
             var contacts = _repository.GetContacts(PortalSettings.PortalId);
-            
-            this.pageService.SetTitle("Contact List - " +contacts.Count());
-            this.pageService.SetDescription("Contact List description - " + contacts.Count());
-            this.pageService.SetKeyWords("keywords1");
-
-
-            //this.pageService.AddInfoMessage("","This is a simple contact list module built using Razor and DNN's MVC Pipeline");
-            //this.pageService.AddErrorMessage("", "This is a simple contact list module built using Razor and DNN's MVC Pipeline");
 
             return View(new ContactsModel()
             {
